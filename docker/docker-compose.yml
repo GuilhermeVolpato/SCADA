@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # Banco de Dados PostgreSQL
+  db:
+    image: postgres:15
+    container_name: scada_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: scada_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Broker MQTT HiveMQ
+# Broker MQTT HiveMQ (Community Edition)
+  mqtt:
+    image: hivemq/hivemq-ce:latest
+    container_name: scada_mqtt
+    ports:
+      - "1883:1883"
+    volumes:
+      - mqtt_data:/opt/hivemq/data
+ 
+
+volumes:
+  postgres_data:
+  mqtt_data:
