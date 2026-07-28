@@ -2,6 +2,8 @@
 
 Projeto prático de um sistema SCADA em miniatura, desenvolvido para monitorar variáveis ambientais e de segurança utilizando nós de borda (Edge Computing), comunicação sem fio híbrida (Wi-Fi + BLE) e uma arquitetura baseada em microsserviços.
 
+https://excalidraw.com/#json=7MxB5bgp4B2l5l_7z1FUg,JZbXQmJDQOgfLpwPagWrbg
+
 ![Arquitetura do Projeto](./arquitetura.png)
 
 ## 🎯 Objetivo
