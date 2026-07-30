@@ -1,0 +1,1 @@
+// Configuração Global BEACON para esp32
