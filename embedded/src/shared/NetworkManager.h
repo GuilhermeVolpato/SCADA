@@ -2,6 +2,7 @@
 #define NETWORK_MANAGER_H
 
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 #include "secrets.h"
 
@@ -18,7 +19,9 @@ void setupWifi()
     Serial.println();
     Serial.print("Conectando ao WiFi: ");
     Serial.println(SSID);
-
+    Serial.println();
+    Serial.print("Senha: ");
+    Serial.println(PASSWORD);
     WiFi.begin(SSID, PASSWORD);
 
     while (WiFi.status() != WL_CONNECTED)
@@ -41,7 +44,7 @@ void reconnectMQTT(PubSubClient &client, String baseClientId)
         String clientId = baseClientId + "-";
         clientId += String(random(0xffff), HEX);
 
-        if (client.connect(clientId.c_str()))
+        if (client.connect(clientId.c_str(), SSID_MQTT, PASSWORD_MQTT))
         {
             Serial.println("Conectado ao MQTT!");
         }

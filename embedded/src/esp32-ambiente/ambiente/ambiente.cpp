@@ -4,10 +4,10 @@
 
 #include "shared/NetworkManager.h"
 
-WiFiClient espClient;
+WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
-const int DHTPIN = 4;
+const int DHTPIN = 2;
 const int DHTTYPE = DHT11;
 const int GAS_SENSOR_PIN = 34;
 
@@ -19,6 +19,7 @@ void setup()
     pinMode(GAS_SENSOR_PIN, INPUT);
 
     setupWifi();
+    espClient.setInsecure();
     client.setServer(MQTT_SERVER, MQTT_PORT);
     dht.begin();
 }
@@ -33,6 +34,10 @@ void loop()
 
     float temperatura = dht.readTemperature();
     float umidade = dht.readHumidity();
+    float gasLevel = analogRead(GAS_SENSOR_PIN);
+    printf("Nível de gás: %.2f\n", gasLevel);
+    printf("Nível de temperatura: %.2f\n", temperatura);
+    printf("Nível de umidade: %.2f\n", umidade);
 
     if (isnan(temperatura) || isnan(umidade))
     {
@@ -46,7 +51,7 @@ void loop()
     sendMQTTMessage(client, "miniscada/ambiente/temperatura", String(temperatura).c_str());
     sendMQTTMessage(client, "miniscada/ambiente/umidade", String(umidade).c_str());
 
-    float gasLevel = analogRead(GAS_SENSOR_PIN);
+
 
     if (gasLevel > 1500)
     {

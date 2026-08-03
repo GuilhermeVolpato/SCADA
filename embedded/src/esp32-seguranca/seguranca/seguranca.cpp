@@ -3,7 +3,7 @@
 
 #include "shared/NetworkManager.h"
 
-WiFiClient espClient;
+WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
 const int SENSOR_PIR_PIN = 13;  
@@ -15,6 +15,7 @@ void setup()
     pinMode(SENSOR_PIR_PIN, INPUT);
     pinMode(SENSOR_FOGO_PIN, INPUT);
     setupWifi();
+    espClient.setInsecure();
 
     client.setServer(MQTT_SERVER, MQTT_PORT);
 }
@@ -27,10 +28,12 @@ void loop()
     }
     client.loop();
 
-    int sensorValue = digitalRead(SENSOR_PIR_PIN);
-    int sensorFogo = digitalRead(SENSOR_FOGO_PIN);
-
-    if (sensorValue == HIGH)
+    int movimento = digitalRead(SENSOR_PIR_PIN);
+    int fogo = digitalRead(SENSOR_FOGO_PIN);
+    printf("Nível de movimento: %.2f\n", movimento);
+    printf("Nível de fogo: %.2f\n", fogo);
+    
+    if (movimento == HIGH)
     {
         sendMQTTMessage(client, "miniscada/seguranca/movimento", "1");
     }
@@ -39,7 +42,7 @@ void loop()
         sendMQTTMessage(client, "miniscada/seguranca/movimento", "0");
     }
 
-    if (sensorFogo == HIGH)
+    if (fogo == HIGH)
     {
         sendMQTTMessage(client, "miniscada/seguranca/fogo", "1");
     }
