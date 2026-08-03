@@ -6,8 +6,8 @@
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-const int SENSOR_PIR_PIN = 4;  
-const int SENSOR_FOGO_PIN = 6; 
+const int SENSOR_PIR_PIN = 13;  
+const int SENSOR_FOGO_PIN = 14;
 
 void setup()
 {

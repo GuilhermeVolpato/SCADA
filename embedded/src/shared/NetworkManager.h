@@ -5,8 +5,10 @@
 #include <PubSubClient.h>
 #include "secrets.h"
 
-const char* SSID = SECRET_SSID;
-const char* PASSWORD = SECRET_PASS;
+const char* SSID = SECRET_SSID_WIFI;
+const char* PASSWORD = SECRET_PASS_WIFI;
+const char* SSID_MQTT = SECRET_SSID_MQTT;
+const char* PASSWORD_MQTT = SECRET_PASS_MQTT;
 const char* MQTT_SERVER = SECRET_MQTT_SERVER;
 const int MQTT_PORT = SECRET_MQTT_PORT;
 
