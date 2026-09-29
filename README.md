@@ -31,3 +31,9 @@ Desenvolver um sistema completo de hardware e software usado para monitorar, con
 *   **Backend:** C# (.NET Core / Web API)
 *   **Frontend:** React.js
 *   **Banco de Dados:** PostgreSQL
+
+## 📚 Documentação de Produto & Engenharia
+
+Além do código, este repositório inclui a documentação de produto, análise de negócio, requisitos e arquitetura que normalmente um time completo (PM, Business Analyst, Arquiteto, Engenharia) produziria em torno de um sistema como este — incluindo o estado real de cada funcionalidade (o que está implementado, parcial ou apenas planejado).
+
+➡️ **[claude/README.md](./claude/README.md)**

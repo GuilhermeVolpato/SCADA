@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
+import { Sidebar } from "@/components/sidebar/sidebar";
 
+// className="flex-1 min-w-0"
+
+// Metadata serve para: definir informações meta para a página
 export const metadata: Metadata = {
   title: "Home Page",
   description: `This is the {page} of the application.`,
@@ -20,6 +25,8 @@ export const metadata: Metadata = {
   },
 };
 
+const inter = Inter({ subsets: ["latin"] });
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,8 +34,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={"antialiased"}>
-        <Header/>
+      <body className={cn("min-h-screen bg-background antialiased", inter.className)}>
+        <Sidebar />
         {children}
       </body>
     </html>

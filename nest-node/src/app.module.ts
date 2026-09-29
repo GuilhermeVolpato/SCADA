@@ -34,7 +34,6 @@ const databaseEnabled = false
     MqttModule,
     TelemetryModule,
     DashboardModule,
-    ...(databaseEnabled ? [AuthModule] : []),
   ],
   controllers: [AppController],
   providers: [
@@ -42,10 +41,6 @@ const databaseEnabled = false
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
     },
     {
       provide: APP_FILTER,

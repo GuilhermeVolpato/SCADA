@@ -1,13 +1,20 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { connect, MqttClient, IClientOptions } from 'mqtt';
+import { Observable, Subject } from 'rxjs';
 import { appendLog } from '../../common/logger';
 import { SENSORS } from './sensors';
+
+export interface MqttMessageEvent {
+  topic: string;
+  message: string;
+}
 
 @Injectable()
 export class MqttService implements OnModuleInit, OnModuleDestroy {
   private client: MqttClient | null = null;
   private readonly latestMessages = new Map<string, unknown>();
+  private readonly messages$ = new Subject<MqttMessageEvent>();
 
   constructor(private readonly configService: ConfigService) {}
 
@@ -57,6 +64,7 @@ export class MqttService implements OnModuleInit, OnModuleDestroy {
       const message = payload.toString();
       this.latestMessages.set(topic, message);
       appendLog(`Mensagem recebida em ${topic}: ${message}`);
+      this.messages$.next({ topic, message });
     });
 
     this.client.on('error', (error) => {
@@ -96,6 +104,10 @@ export class MqttService implements OnModuleInit, OnModuleDestroy {
 
   getLatestMessages() {
     return Object.fromEntries(this.latestMessages.entries());
+  }
+
+  get messages(): Observable<MqttMessageEvent> {
+    return this.messages$.asObservable();
   }
 
   getLatestMessage(topic: string) {
