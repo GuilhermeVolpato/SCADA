@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("scadaback")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3784c3fae12ab68b1e2aab474164fa8759cec71")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f960a3aad18a00776b287c30b3b3b82a64b4137a")]
 [assembly: System.Reflection.AssemblyProductAttribute("scadaback")]
 [assembly: System.Reflection.AssemblyTitleAttribute("scadaback")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
