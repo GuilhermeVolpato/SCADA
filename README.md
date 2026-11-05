@@ -28,6 +28,6 @@ Desenvolver um sistema completo de hardware e software usado para monitorar, con
 ## 🚀 Tecnologias Utilizadas
 *   **Embarcados:** C/C++ (ESP32), BLE (Bluetooth Low Energy)
 *   **Mensageria:** MQTT (HiveMQ)
-*   **Backend:** C# (.NET Core / Web API)
+*   **Backend:** NodeJS/NestJS
 *   **Frontend:** React.js
 *   **Banco de Dados:** PostgreSQL
