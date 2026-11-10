@@ -1,33 +1,79 @@
-# Mini-SCADA: Monitoramento Ambiental e Segurança Industrial
+# Mini-SCADA: Environmental Monitoring & Industrial Security
 
-Projeto prático de um sistema SCADA em miniatura, desenvolvido para monitorar variáveis ambientais e de segurança utilizando nós de borda (Edge Computing), comunicação sem fio híbrida (Wi-Fi + BLE) e uma arquitetura baseada em microsserviços.
+A hands-on miniature SCADA system built to monitor environmental and security variables using edge computing nodes, hybrid wireless communication (Wi-Fi + BLE), and a microservices-based architecture.
+
+It's aimed at hobbyists, students, and engineers who want a small but realistic reference implementation of a SCADA stack — from embedded sensors all the way up to a live supervisory dashboard — without the cost or complexity of industrial-grade hardware.
 
 https://excalidraw.com/#json=7MxB5bgp4B2l5l_7z1FUg,JZbXQmJDQOgfLpwPagWrbg
 
-![Arquitetura do Projeto](./arquitetura.png)
+![Project architecture](./arquitetura.png)
 
-## 🎯 Objetivo
-Desenvolver um sistema completo de hardware e software usado para monitorar, controlar e registrar dados de processos industriais, integrando sensores físicos, comunicação MQTT/BLE e um dashboard de supervisão em tempo real.
+## 🎯 Goal
+Build a complete hardware-and-software system to monitor, control, and log industrial process data, integrating physical sensors, MQTT/BLE communication, and a real-time supervisory dashboard.
 
-## 🏗️ Arquitetura e Comunicação
+## 🏗️ Architecture & Communication
 
-### Camada de Borda (Edge / Sensores)
-*   **Nó 1 - ESP32 (Ambiente):** Coleta dados do Sensor DHT11 (Temperatura/Umidade) e Sensor MQ-2 (Fumaça/Gás inflamável). Publica os dados via rede Wi-Fi utilizando o protocolo **MQTT**. Também atua como um transmissor BLE contínuo (**BLE Advertising / Beacon**).
-*   **Nó 2 - ESP32 (Segurança):** Coleta dados do Sensor de Fogo (Chama) e Sensor PIR (Movimento). Opera como **BLE Scanner**, medindo o sinal RSSI do Nó 1 para estimar a distância (proximidade) entre eles. Publica seus sensores físicos e os dados do Beacon via MQTT.
+### Edge Layer (Sensors)
+*   **Node 1 - ESP32 (Environment):** Reads a DHT11 sensor (temperature/humidity) and an MQ-2 sensor (smoke/flammable gas). Publishes data over Wi-Fi using the **MQTT** protocol. Also acts as a continuous BLE transmitter (**BLE Advertising / Beacon**).
+*   **Node 2 - ESP32 (Security):** Reads a fire/flame sensor and a PIR motion sensor. Operates as a **BLE Scanner**, measuring Node 1's RSSI signal to estimate the distance (proximity) between the two nodes. Publishes its own sensor readings and the beacon data via MQTT.
 
-### Camada de Mensageria
-*   **Broker MQTT (HiveMQ / Mosquitto):** Roteador central que recebe os tópicos dos ESP32 e distribui para os serviços inscritos.
+### Messaging Layer
+*   **MQTT Broker (HiveMQ / Mosquitto):** Central router that receives topics from the ESP32 nodes and distributes them to subscribed services.
 
-### Camada de Backend e Dados
-*   **Backend (C# .NET):** Worker/API que assina os tópicos MQTT, processa as mensagens, aplica as regras de negócio de automação e expõe endpoints para o frontend.
-*   **Banco de Dados (PostgreSQL):** Responsável por persistir o histórico de leituras (séries temporais) e o log de eventos/alertas.
+### Backend & Data Layer
+*   **Backend (C# .NET):** Worker/API that subscribes to MQTT topics, processes messages, applies automation business rules, and exposes endpoints for the frontend.
+*   **Database (PostgreSQL):** Persists the historical readings (time series) and the event/alert log.
 
-### Camada de Supervisão
-*   **Frontend (React):** Dashboard interativo que consome a API do backend para exibir gráficos, status de proximidade e alertas críticos de segurança.
+### Supervisory Layer
+*   **Frontend (React):** Interactive dashboard that consumes the backend API to display charts, proximity status, and critical security alerts.
 
-## 🚀 Tecnologias Utilizadas
-*   **Embarcados:** C/C++ (ESP32), BLE (Bluetooth Low Energy)
-*   **Mensageria:** MQTT (HiveMQ)
-*   **Backend:** NodeJS/NestJS
-*   **Frontend:** React.js
-*   **Banco de Dados:** PostgreSQL
+## 🚀 Tech Stack
+*   **Embedded:** C/C++ (ESP32), BLE (Bluetooth Low Energy)
+*   **Messaging:** MQTT (HiveMQ)
+*   **Backend:** Node.js/NestJS, C# .NET
+*   **Frontend:** React.js / Next.js
+*   **Database:** PostgreSQL
+
+## 🛠️ How to Run
+
+### Prerequisites
+*   Docker and Docker Compose (for PostgreSQL + the MQTT broker)
+*   Node.js 18+ and npm
+*   [PlatformIO](https://platformio.org/) (CLI or VSCode extension) to build/flash the ESP32 firmware
+*   Two ESP32 boards wired up per [embedded/README.MD](./embedded/README.MD), or a plain MQTT client if you just want to feed it fake data
+
+### 1. Start the infrastructure (PostgreSQL + MQTT broker)
+```bash
+cd docker
+docker compose up -d
+```
+
+### 2. Run the backend (NestJS)
+```bash
+cd nest-node
+npm install
+cp .env.example .env   # adjust MQTT/DB settings if needed
+npm run start:dev
+```
+
+### 3. Run the frontend (Next.js)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to see the dashboard.
+
+### 4. Flash the ESP32 nodes
+```bash
+cd embedded
+pio run -e ambiente -t upload    # environment node
+pio run -e seguranca -t upload   # security node
+```
+See [embedded/README.MD](./embedded/README.MD) for wiring, PlatformIO setup, and per-board build instructions.
+
+## 🗺️ Roadmap / Known gaps
+*   [ ] Mobile app (see [mobile/README.MD](./mobile/README.MD)) — not started yet
+*   [ ] Historical charts/reporting on the dashboard
+*   [ ] Alerting (push/email) on critical sensor events
+*   [ ] Automated tests for the MQTT ingestion pipeline

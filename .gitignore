@@ -1,0 +1,14 @@
+# .NET backend build output
+backend/bin/
+backend/obj/
+
+# Environment files
+.env
+*.env
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
