@@ -1,8 +1,6 @@
 # Mini-SCADA: Environmental Monitoring & Industrial Security
 
-A hands-on miniature SCADA system built to monitor environmental and security variables using edge computing nodes, hybrid wireless communication (Wi-Fi + BLE), and a microservices-based architecture.
-
-It's aimed at hobbyists, students, and engineers who want a small but realistic reference implementation of a SCADA stack — from embedded sensors all the way up to a live supervisory dashboard — without the cost or complexity of industrial-grade hardware.
+A hands-on SCADA system built to monitor environmental and security variables using edge computing nodes, hybrid wireless communication (Wi-Fi + BLE), and a microservices-based architecture.
 
 https://excalidraw.com/#json=7MxB5bgp4B2l5l_7z1FUg,JZbXQmJDQOgfLpwPagWrbg
 
